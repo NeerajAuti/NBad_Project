@@ -20,7 +20,10 @@
   "homepage": "https://github.com/NeerajAuti/NBad_Project#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
+    "mongodb": "^3.6.3",
+    "mongoose": "^5.11.8"
   },
   "devDependencies": {
     "angular-cli": "^1.0.0-beta.28.3"

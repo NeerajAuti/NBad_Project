@@ -9,11 +9,10 @@ import { HeroComponent } from './hero/hero.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { ArticleComponent } from './article/article.component';
-import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
 import { P404Component } from './p404/p404.component';
-import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { ContactComponent } from './contact/contact.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -23,11 +22,10 @@ import { ContactComponent } from './contact/contact.component';
     FooterComponent,
     HomepageComponent,
     ArticleComponent,
-    AboutComponent,
     LoginComponent,
     P404Component,
-    BreadcrumbsComponent,
-    ContactComponent
+    ContactComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
