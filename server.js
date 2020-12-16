@@ -5,7 +5,8 @@ const jwt = require("jsonwebtoken");
 const mongoDBClient = require("mongodb").MongoClient;
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
-const budgetDataModel = require('./models/budgetData_scheme.js')
+const budgetDataModel = require('./models/budgetData_scheme.js');
+const Users_scheme = require('./models/Users_scheme.js');
 let url = "mongodb+srv://Neeraj:P%40ssw0rd%40123%40@cluster0.jau2d.mongodb.net/test";
 const app = express();
 const port = 3000;
@@ -35,20 +36,20 @@ app.post("/api/login", (req, res) => {
       console.log("Error");
       } else {
       console.log("Logging User In");
-      dbHandler.db("mongodb_demo").collection("Users").find({
-        $or:[
-          {Username:username},
-        {Password:password}]
-      }).toArray((operr, opresult) => {
+      dbHandler.db("test").collection("Users").find(
+          {username:username},
+        {password:password}
+      ).toArray((operr, opresult) => {
           if (operr) {
               console.log(operr);
           }
           else
           {
               users= opresult;
-              if (username == users[0].Username && password == users[0].Password) {
+              console.log(users);
+              if (username == users[0].username && password == users[0].password) {
                 let token = jwt.sign(
-                  { id: users[0].id, username: users[0].Username },
+                  { username: users[0].username },
                   secretKey,
                   { expiresIn: "3m" }
                 );
@@ -90,7 +91,7 @@ app.get('/budget', (req, res) => {
         console.log("Error");
         } else {
         console.log("Getting BudgetData");
-        dbHandler.db("mongodb_demo").collection("budgetData").find().toArray((operr, opresult) => {
+        dbHandler.db("test").collection("budgetData").find().toArray((operr, opresult) => {
             if (operr) {
                 console.log(operr);
             }
@@ -127,6 +128,31 @@ app.post('/budget', (req,res) => {
         })
 });
 
+
+app.post('/api/signup', (req,res) => { 
+  console.log("Signing Up");
+  // res.status(200).send();
+  mongoose.connect(url, {useNewUrlParser: true,useUnifiedTopology: true} )
+      .then(()=> {
+          console.log(req.body);
+          let data = new Users_scheme(req.body);
+          Users_scheme.insertMany(data)
+                    .then((data) =>{
+                        console.log(data);
+                        res.send("User Signed Up Successfully");
+                        mongoose.connection.close();
+                    })
+                    .catch((connectionError) =>{
+                        console.log(connectionError);
+                        let ExistingUser=data.username;
+                        res.status(400).send(ExistingUser + " is already been taken. Please select another username.");
+                    })
+      })
+      .catch((connectionError) => {
+          console.log(connectionError);
+          res.status(400).send();
+      })
+});
 app.listen(port, () =>{
     console.log(`Example app listening at http://localhost:${port}`);
 });

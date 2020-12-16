@@ -1,1 +1,42 @@
-<p>signup works!</p>
+<main id="main">
+  <div class="container center">
+    <div class="page-area">
+      <h6 *ngIf="error">{{error}}</h6>
+        <form class="container" [formGroup]="SignupForm" (ngSubmit)="onSubmit()">
+          <div class="form-group col-3">
+            <label style="width: max-content;" for="firstname">First Name</label>
+            <input style="width: auto;" type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+            <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+              <div style="width: max-content;" *ngIf="f.firstName.errors.required">First Name is required</div>
+            </div>
+          </div>
+          <div class="form-group col-3">
+            <label style="width: max-content;" for="lastname">Last Name</label>
+            <input style="width: auto;" type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+            <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                <div style="width: max-content;" *ngIf="f.lastName.errors.required">Last Name is required</div>
+            </div>
+          </div>
+          <div class="form-group col-3">
+            <label for="username">Username</label>
+            <input style="width: auto;" type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                <div style="width: max-content;" *ngIf="f.username.errors.required">Username is required</div>
+            </div>
+          </div>
+          <div class="form-group col-3">
+            <label for="password">Password</label>
+            <input style="width: auto;" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div style="width: max-content;" *ngIf="f.password.errors.required">Password is required</div>
+                <div style="width: max-content;" *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+            </div>
+          </div>
+          <div class="form-group col-3">
+            <button class="btn btn-outline-primary" type="submit">Sign Up</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</main>
+
