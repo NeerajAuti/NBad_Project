@@ -26,11 +26,12 @@ const jwtMW = exjwt({
   secret: secretKey,
   algorithms: ["HS256"],
 });
+// let users = [];
 let users = [
   {
     id: 1,
     username: "Neeraj",
-    password: "123",
+    password: "1234",
   },
   {
     id: 2,
@@ -41,28 +42,45 @@ let users = [
 
 app.post("/api/login", (req, res) => {
     const { username, password } = req.body;
-  
-    for (let user of users) {
-      if (username == user.username && password == user.password) {
-        let token = jwt.sign(
-          { id: user.id, username: user.username },
-          secretKey,
-          { expiresIn: "3m" }
-        );
-        res.json({
-          success: true,
-          err: null,
-          token,
-        });
-        break;
+    mongoDBClient.connect(url,{ useUnifiedTopology: true },(operationError, dbHandler) => {
+      if (operationError) {
+      console.log("Error");
       } else {
-        res.status(401).json({
-          success: false,
-          err: "Username or Password is incorrect",
-          token: null,
+      console.log("Logging User In");
+      dbHandler.db("mongodb_demo").collection("Users").find({
+        $or:[
+          {Username:username},
+        {Password:password}]
+      }).toArray((operr, opresult) => {
+          if (operr) {
+              console.log(operr);
+          }
+          else
+          {
+              users= opresult;
+              if (username == users[0].Username && password == users[0].Password) {
+                let token = jwt.sign(
+                  { id: users[0].id, username: users[0].Username },
+                  secretKey,
+                  { expiresIn: "3m" }
+                );
+                res.status(200).json({
+                  success: true,
+                  err: null,
+                  token,
+                });
+              } else {
+                res.status(401).json({
+                  success: false,
+                  err: "Username or Password is incorrect",
+                  token: null,
+                });
+              }
+          }
+              dbHandler.close();
         });
       }
-    }
+  });
   });
   
   app.use(function (err, req, res, next) {
@@ -83,7 +101,7 @@ app.get('/budget', (req, res) => {
         if (operationError) {
         console.log("Error");
         } else {
-        console.log("Connected to db");
+        console.log("Getting BudgetData");
         dbHandler.db("mongodb_demo").collection("budgetData").find().toArray((operr, opresult) => {
             if (operr) {
                 console.log(operr);
