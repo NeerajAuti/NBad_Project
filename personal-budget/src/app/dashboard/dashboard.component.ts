@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Chart } from 'chart.js';
 import * as d3 from 'd3';
 import { DataService } from '../data.service';
@@ -16,11 +15,10 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    let test = async () => { return this.DataService.GetBudgetData(); };
-    test().then((value) => this.DisplayCharts(value));
+    this.DisplayCharts();
   }
 
-  DisplayCharts(value) {
+  DisplayCharts() {
     this.createChart();
     this.create_d3jsChart(this.DataService.data);
   }

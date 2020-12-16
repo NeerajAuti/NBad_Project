@@ -2,8 +2,14 @@
   <ul>
     <!-- This is an A11y Change -->
     <li title="Go to Home page"><a [routerLink]="['']">Home</a></li>
-    <li title="Go to Dashboard page"><a [routerLink]="['dashboard']">Dashboard</a></li>
-    <li title="Go to Login page"><a [routerLink]="['login']">Login</a></li>
+    <!-- <li title="Go to Dashboard page"><a [routerLink]="['dashboard']">Dashboard</a></li>
+    <li title="Go to Login page"><a [routerLink]="['login']">Login</a></li> -->
+    <li class="nav-item" *ngFor="let link of links">
+      <a class="nav-link" [routerLink]="link.path">{{ link.text }}</a>
+    </li>
+    <li class="nav-item" *ngIf="isLoggedIn">
+      <a class="nav-link" routerLink="logout" (click)="logout()">Logout</a>
+    </li>
     <li title="Go to Contact page"><a [routerLink]="['contact']">Contact</a></li>
   </ul>
 </nav>
