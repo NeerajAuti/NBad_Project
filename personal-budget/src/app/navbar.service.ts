@@ -11,6 +11,7 @@ export class NavbarService {
 
   constructor() {
     this.addItem({ text: 'Login', path: 'login' });
+    this.addItem({ text: 'Sign Up', path: 'signup' });
     this.isLoggedIn.next(false);
   }
   getLinks() {
@@ -27,11 +28,13 @@ export class NavbarService {
     if (!status) {
       this.clearAllItems();
       this.addItem({ text: 'Login', path: 'login' });
+      this.addItem({ text: 'Sign Up', path: 'signup' });
     }
   }
 
   updateNavAfterAuth(): void {
     this.removeItem({ text: 'Login' });
+    this.removeItem({ text: 'Sign Up' });
     this.addItem({ text: 'Dashboard', path: 'dashboard' });
   }
 

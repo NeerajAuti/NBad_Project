@@ -26,19 +26,7 @@ const jwtMW = exjwt({
   secret: secretKey,
   algorithms: ["HS256"],
 });
-// let users = [];
-let users = [
-  {
-    id: 1,
-    username: "Neeraj",
-    password: "1234",
-  },
-  {
-    id: 2,
-    username: "test",
-    password: "456",
-  },
-];
+let users = [];
 
 app.post("/api/login", (req, res) => {
     const { username, password } = req.body;

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { LoginComponent } from '../login/login.component';
 import { NavbarService } from '../navbar.service';
+import { SignupComponent } from '../signup/signup.component';
 
 @Component({
   selector: 'pb-menu',
@@ -17,6 +18,7 @@ export class MenuComponent implements OnInit {
     this.router.config.unshift(
       { path: 'login', component: LoginComponent },
       { path: 'dashboard', component: DashboardComponent },
+      { path: 'signup', component: SignupComponent },
     );
   }
 
