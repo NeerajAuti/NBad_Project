@@ -23,10 +23,15 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {
     this.links = this.navbarService.getLinks();
     this.navbarService.getLoginStatus().subscribe(status => this.isLoggedIn = status);
+    // if (localStorage.getItem("JWT_access_token") != null) {
+    //   this.navbarService.updateLoginStatus(true);
+    //   this.navbarService.updateNavAfterAuth();
+    // }
   }
 
   logout() {
     this.navbarService.updateLoginStatus(false);
+    localStorage.removeItem("JWT_access_token");
     this.router.navigate(['/']);
   }
 

@@ -25,13 +25,14 @@ export class LoginComponent implements OnInit {
   public submit() {
     this.http.post('http://localhost:3000/api/login', { username: this.username, password: this.password })
       .subscribe((res: any) => {
-        console.log(res);
+        console.log(res.status);
         localStorage.setItem('JWT_access_token', res.token);
         this.DataService.GetBudgetData();
         this.navbarService.updateLoginStatus(true);
         this.navbarService.updateNavAfterAuth();
         this.router.navigate(['/']);
-      });
+      }, err => this.error = err.error.err
+      );
   }
 
 }

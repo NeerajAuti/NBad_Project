@@ -15,10 +15,11 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.DisplayCharts();
+    let test = async () => { return this.DataService.GetBudgetData(); };
+    test().then((value) => this.DisplayCharts(value));
   }
 
-  DisplayCharts() {
+  DisplayCharts(value) {
     this.createChart();
     this.create_d3jsChart(this.DataService.data);
   }
