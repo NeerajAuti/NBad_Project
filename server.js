@@ -91,13 +91,14 @@ app.get('/budget', (req, res) => {
         console.log("Error");
         } else {
         console.log("Getting BudgetData");
-        dbHandler.db("test").collection("budgetData").find().toArray((operr, opresult) => {
+        dbHandler.db("test").collection("budgetData").find({username:users[0].username}).toArray((operr, opresult) => {
             if (operr) {
                 console.log(operr);
             }
             else
             {
                 json= opresult;
+                console.log(json);
                 res.status(200).json(json);
                 dbHandler.close();
             }

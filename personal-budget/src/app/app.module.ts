@@ -15,6 +15,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SignupComponent } from './signup/signup.component';
+import { AuthGuard } from './auth.guard';
+import { DataService } from './data.service';
+import { AuthService } from './auth.service';
+import { NavbarService } from './navbar.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +46,12 @@ import { SignupComponent } from './signup/signup.component';
     DashboardComponent,
     SignupComponent
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+    DataService,
+    AuthService,
+    NavbarService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

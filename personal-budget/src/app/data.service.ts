@@ -9,20 +9,7 @@ export class DataService {
     datasets: [
       {
         data: [],
-        backgroundColor: [
-          "#ffcd56",
-          "#ff6384",
-          "#36a2eb",
-          "#fd6b19",
-          "#99ff33",
-          "#ff9900",
-          "#00ffcc",
-          "#99ff99",
-          "#cc66ff",
-          "#cc6699",
-          "#3366cc",
-          "#660066",
-        ],
+        backgroundColor: [],
       },
     ],
     labels: [],
@@ -34,11 +21,22 @@ export class DataService {
   public GetBudgetData() {
     this.http.get('http://localhost:3000/budget')
       .subscribe((res: any) => {
-        console.log(res);
+        this.dataSource = {
+          datasets: [
+            {
+              data: [],
+              backgroundColor: [],
+            },
+          ],
+          labels: [],
+        };
+        this.data = [];
+        // console.log(res);
         if (this.dataSource.datasets[0].data.length == 0) {
           for (var i = 0; i < res.length; i++) {
             this.dataSource.datasets[0].data[i] = res[i].budget;
             this.dataSource.labels[i] = res[i].title;
+            this.dataSource.datasets[0].backgroundColor[i] = res[i].color;
           }
         }
         if (this.data.length == 0) {

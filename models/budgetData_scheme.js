@@ -17,6 +17,11 @@ const budgetDataSchema = new mongoose.Schema({
         minlength: 7,
         maxlength: 7,
         unique: true,
+    },
+    username: {
+        type: String,
+        trim: true,
+        required: true,
     }
 }, {collection: 'budgetData'})
 
