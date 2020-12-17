@@ -19,6 +19,7 @@ import { AuthGuard } from './auth.guard';
 import { DataService } from './data.service';
 import { AuthService } from './auth.service';
 import { NavbarService } from './navbar.service';
+import { TableComponent } from './table/table.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { NavbarService } from './navbar.service';
     ContactComponent,
     DashboardComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,

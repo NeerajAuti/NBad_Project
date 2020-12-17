@@ -21,8 +21,6 @@ export class DashboardComponent implements OnInit {
   }
 
   DisplayCharts() {
-    console.log(this.DataService.dataSource);
-    console.log(this.DataService.data);
     this.createChart();
     this.create_d3jsChart(this.DataService.data);
   }
@@ -34,11 +32,18 @@ export class DashboardComponent implements OnInit {
       data: this.DataService.dataSource,
     });
 
+    var ctx2 = document.getElementById("myChart2");
+
+    var myLineChart = new Chart(ctx2, {
+      type: "line",
+      data: this.DataService.dataSourceChart2,
+    });
+
   }
 
   create_d3jsChart(data) {
     // set the dimensions and margins of the graph
-    var width = 350;
+    var width = 450;
     var height = 350;
     var margin = 50;
 
@@ -114,7 +119,7 @@ export class DashboardComponent implements OnInit {
       .data(data_ready)
       .enter()
       .append('text')
-      .text((d) => { console.log(d.data.key); return d.data.key; })
+      .text((d) => { return d.data.key + ":" + d.data.value; })
       .attr('transform', (d) => {
         var pos = outerArc.centroid(d);
         var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;

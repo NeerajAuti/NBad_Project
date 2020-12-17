@@ -1,18 +1,23 @@
 <main id="main">
   <div class="container center">
+    <article style="float: right;">
+      <div class="form-group col-3">
+        <a routerLink="/UpdateData"><button class="btn btn-outline-primary">Update data</button></a>
+      </div>
+    </article>
     <div class="page-area">
       <article>
-        <h1>New Chart</h1>
+        <h1>Budget of different categories</h1>
         <div id="d3jsChart"></div>
       </article>
-      <article>
-        <h1>Chart</h1>
+      <article class="text-box">
+        <h1>Monthly Total Expenses</h1>
         <p>
-          <canvas id="myChart" width="340" height="340" style="display: inline-block;"></canvas>
+          <canvas id="myChart" width="340" height="340" style="display: inline-block; width: 350px; height: 350px;"></canvas>
         </p>
       </article>
       <article>
-        <h1>Chart</h1>
+        <h1>Total Expenses vs Total Budget</h1>
         <p>
           <canvas id="myChart2" width="340" height="340" style="display: inline-block;"></canvas>
         </p>

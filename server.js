@@ -20,7 +20,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
 app.use('/',express.static('public'))
-var json = {}
+var Chart1Data = {}
+var Chart2Data = {}
 
 const secretKey = "My Super Key";
 const jwtMW = exjwt({
@@ -109,16 +110,29 @@ app.get('/budget', (req, res) => {
         console.log(typeof users[0]);
         if (typeof users[0] !== 'undefined')
         {
-          dbHandler.db("test").collection("budgetData").find({username:users[0].username}).toArray((operr, opresult) => {
+          dbHandler.db("test").collection("budgetData").find({username:users[0].username}).toArray((operr, opresults) => {
             if (operr) {
                 console.log(operr);
             }
             else
             {
-                json= opresult;
-                console.log(json);
-                res.status(200).json(json);
-                dbHandler.close();
+                dbHandler.db("test").collection("budgetData").aggregate(
+                  [{ $match: { "username": users[0].username } },
+                  {$group: {_id: "$month", "totalExpense": {$sum: "$expense"},"totalBudget": {$sum: "$budget"} }}]
+                  ).toArray((operr, opresult) => {
+                  if (operr) {
+                    console.log(operr);
+                  }
+                  else
+                  {
+                    console.log(opresult);
+                    Chart2Data=opresult;
+                    Chart1Data= opresults;
+                    // console.log(json);
+                    res.status(200).json({Chart1Data:Chart1Data,Chart2Data:Chart2Data});
+                    dbHandler.close();               
+                  }
+                });
             }
             });
         }
