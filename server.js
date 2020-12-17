@@ -84,6 +84,21 @@ app.post("/api/login", (req, res) => {
     }
   });
 
+  app.get('/api/logout', (req, res) => {
+    users = [];
+  });
+
+app.post("/api/verify", (req, res) => {
+  console.log("Verifying Token");
+  const { token } = req.body;
+  try{
+    var decoded = jwt.verify(token,secretKey);
+    res.status(200).json(decoded);
+  }catch(err){
+    res.status(401).send("Token Expired");
+  }
+});
+
 app.get('/budget', (req, res) => {
     
     mongoDBClient.connect(url,{ useUnifiedTopology: true },(operationError, dbHandler) => {
@@ -91,7 +106,10 @@ app.get('/budget', (req, res) => {
         console.log("Error");
         } else {
         console.log("Getting BudgetData");
-        dbHandler.db("test").collection("budgetData").find({username:users[0].username}).toArray((operr, opresult) => {
+        console.log(typeof users[0]);
+        if (typeof users[0] !== 'undefined')
+        {
+          dbHandler.db("test").collection("budgetData").find({username:users[0].username}).toArray((operr, opresult) => {
             if (operr) {
                 console.log(operr);
             }
@@ -103,6 +121,10 @@ app.get('/budget', (req, res) => {
                 dbHandler.close();
             }
             });
+        }
+        else{
+          res.status(400).send("User not logged in!");
+        }
         }
     });
 });

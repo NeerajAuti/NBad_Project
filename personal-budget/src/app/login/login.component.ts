@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
       .subscribe((res: any) => {
         console.log(res.status);
         localStorage.setItem('JWT_access_token', res.token);
-        this.DataService.GetBudgetData();
+        // this.DataService.GetBudgetData();
         this.navbarService.updateLoginStatus(true);
         this.navbarService.updateNavAfterAuth();
         this.router.navigate(['/']);

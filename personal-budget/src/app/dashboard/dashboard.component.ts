@@ -15,7 +15,9 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.DisplayCharts();
+    this.DataService.GetBudgetData().then(res => {
+      this.DisplayCharts();
+    });
   }
 
   DisplayCharts() {

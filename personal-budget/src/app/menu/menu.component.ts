@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DashboardComponent } from '../dashboard/dashboard.component';
@@ -14,7 +15,7 @@ export class MenuComponent implements OnInit {
   links: Array<{ text: string, path: string }>;
   isLoggedIn = false;
 
-  constructor(private router: Router, private navbarService: NavbarService) {
+  constructor(private router: Router, private navbarService: NavbarService, private http: HttpClient) {
     this.router.config.unshift(
       { path: 'login', component: LoginComponent },
       { path: 'dashboard', component: DashboardComponent },
@@ -34,6 +35,10 @@ export class MenuComponent implements OnInit {
   logout() {
     this.navbarService.updateLoginStatus(false);
     localStorage.removeItem("JWT_access_token");
+    this.http.get('http://localhost:3000/api/logout')
+      .subscribe((res: any) => {
+
+      });
     this.router.navigate(['/']);
   }
 
