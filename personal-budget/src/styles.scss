@@ -398,7 +398,7 @@ div.hero h2 {
 
 div.hero h1 {
   color: #fff;
-  font-size: 4.2em;
+  font-size: 3.2em;
   margin-bottom: 20px;
 }
 
@@ -439,3 +439,6 @@ div.hero h2 {
       margin: 10px;
   }
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

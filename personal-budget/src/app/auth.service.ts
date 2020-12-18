@@ -18,7 +18,7 @@ export class AuthService {
       localStorage.removeItem('JWT_access_token');
       this.http.get('http://localhost:3000/api/logout')
         .subscribe((res: any) => {
-          // this.router.navigate(['']);
+          this.router.navigate(['']);
         });
     });
   }

@@ -129,7 +129,7 @@ app.get('/budget', (req, res) => {
                     Chart2Data=opresult;
                     Chart1Data= opresults;
                     // console.log(json);
-                    res.status(200).json({Chart1Data:Chart1Data,Chart2Data:Chart2Data});
+                    res.status(200).json({Chart1Data:Chart1Data,Chart2Data:Chart2Data, UserName: users[0].username});
                     dbHandler.close();               
                   }
                 });
@@ -143,7 +143,7 @@ app.get('/budget', (req, res) => {
     });
 });
 
-app.post('/budget', (req,res) => { 
+app.post('/budget/add', (req,res) => { 
     mongoose.connect(url, {useNewUrlParser: true,useUnifiedTopology: true} )
         .then(()=> {
             console.log(req.body);
@@ -165,6 +165,61 @@ app.post('/budget', (req,res) => {
         })
 });
 
+app.post('/budget/update', (req,res) => { 
+  mongoose.connect(url, {useNewUrlParser: true,useUnifiedTopology: true} )
+      .then(()=> {
+        console.log("Updating the Document");
+          console.log(req.body);
+          let dataTOUpdate = {$set:{
+            title: req.body.title,
+            budget: req.body.budget,
+            color: req.body.color,
+            expense: req.body.expense,
+            month: req.body.month
+            }};
+          budgetDataModel.updateMany({_id:req.body.id},dataTOUpdate)
+                    .then((data) =>{
+                      console.log("Update done");
+                        console.log(data);
+                        res.status(200).send("Data inserted Successfully");
+                        mongoose.connection.close();
+                    })
+                    .catch((connectionError) =>{
+                        console.log(connectionError);
+                        res.status(400).send();
+                    })
+      })
+      .catch((connectionError) => {
+          console.log(connectionError);
+          res.status(400).send();
+      })
+});
+
+app.post('/budget/delete', (req,res) => {
+    try {
+        mongoose.connect(url, {useNewUrlParser: true,useUnifiedTopology: true} )
+        .then(()=> {
+            console.log("Deleting Data");
+            console.log(req)
+            budgetDataModel.deleteOne({_id: req.body.id })
+                .then((data) =>{
+                    //console.log(data);
+                    res.send(data);
+                    mongoose.connection.close();
+                })
+                .catch((connectionError) =>{
+                    console.log(connectionError);
+                })
+        })
+        .catch((connectionError) => {
+            console.log(connectionError);
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(400).send();
+    }
+    
+})
 
 app.post('/api/signup', (req,res) => { 
   console.log("Signing Up");

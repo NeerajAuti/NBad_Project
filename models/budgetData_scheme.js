@@ -22,6 +22,16 @@ const budgetDataSchema = new mongoose.Schema({
         type: String,
         trim: true,
         required: true,
+    },
+    expense: {
+        type: Number,
+        trim: true,
+        required: true,
+    },
+    month: {
+        type: String,
+        trim: true,
+        required: true,
     }
 }, {collection: 'budgetData'})
 

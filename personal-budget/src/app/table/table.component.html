@@ -1,7 +1,78 @@
 <main id="main">
   <div class="container center">
     <div class="page-area">
-      Table
+      <div class="container mat-elevation-z8">
+<!--
+        <div class="form">
+          <mat-form-field floatPlaceholder="never" color="accent">
+            <input matInput #filter placeholder="Filter issues">
+          </mat-form-field>
+        </div> -->
+
+        <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+          <!-- ng update @angular/cli @angular/core -->
+          <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+            <mat-cell *matCellDef="let row" >{{row._id}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Title</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.title}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="budget">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Budget</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.budget}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="color">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Color</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.color}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="expense">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Expense</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.expense}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="month">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Month</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.month}}</mat-cell>
+          </ng-container>
+
+          <!-- actions -->
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef>
+              <button mat-icon-button color="primary" (click)="addNew()">
+                <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+              </button>
+            </mat-header-cell>
+
+            <mat-cell *matCellDef="let row; let i=index;">
+              <button mat-icon-button color="accent" (click)="startEdit(i, row._id, row.title, row.budget, row.color, row.expense, row.month)">
+                <mat-icon aria-label="Edit">edit</mat-icon>
+              </button>
+
+              <button mat-icon-button color="accent" (click)="deleteItem(i, row._id, row.title, row.budget, row.color)">
+                <mat-icon aria-label="Delete">delete</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+
+        <div class="no-results" [style.display]="dataSource.length == 0 ? '' : 'none'">
+          No results
+        </div>
+      </div>
     </div>
   </div>
 </main>

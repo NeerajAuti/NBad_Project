@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
 
   DisplayCharts() {
     this.createChart();
-    this.create_d3jsChart(this.DataService.data);
+    this.create_d3jsChart(this.DataService.Chartdata);
   }
   createChart() {
     var ctx = document.getElementById("myChart");

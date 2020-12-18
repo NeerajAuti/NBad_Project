@@ -1,7 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, Optional } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { rejects } from 'assert';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { Issue } from './models/issue';
+import { Chart } from 'chart.js';
 
 @Injectable({
   providedIn: 'root'
@@ -46,9 +49,14 @@ export class DataService {
     ],
     labels: [],
   };
-  public data = [];
+  public Chartdata = [];
+  public TableData = [];
+  public UserName;
+  dataChange: BehaviorSubject<Issue[]> = new BehaviorSubject<Issue[]>([]);
+  // Temporarily stores data from dialogs
+  dialogData: any;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, @Optional() private router?: Router) { }
 
   public GetBudgetData() {
     return new Promise((resolve, reject) => {
@@ -93,8 +101,10 @@ export class DataService {
             ],
             labels: [],
           };
-          this.data = [];
-
+          this.Chartdata = [];
+          this.TableData = res.Chart1Data;
+          this.UserName = res.UserName;
+          // console.log(this.UserName);
           var allMonths = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"];
           res.Chart2Data.sort(function (a, b) {
@@ -114,12 +124,12 @@ export class DataService {
             // console.log(this.dataSourceChart2);
 
           }
-          if (this.data.length == 0) {
+          if (this.Chartdata.length == 0) {
             for (var i = 0; i < res.Chart1Data.length; i++) {
               var data1 = {};
               data1["key"] = res.Chart1Data[i].title;
               data1["value"] = res.Chart1Data[i].budget;
-              this.data.push(data1);
+              this.Chartdata.push(data1);
             }
           }
           resolve(this.dataSource);
@@ -131,4 +141,110 @@ export class DataService {
           });
     })
   }
+
+  get data(): Issue[] {
+    return this.dataChange.value;
+  }
+
+  getDialogData() {
+    return this.dialogData;
+  }
+
+  /** CRUD METHODS */
+  getAllIssues(): void {
+    this.http.get<Issue[]>("http://localhost:3000/budget").subscribe(data => {
+      this.dataChange.next(data);
+    },
+      (error: HttpErrorResponse) => {
+        console.log(error.name + ' ' + error.message);
+      });
+  }
+
+  addIssue(issue: Issue): void {
+    this.dialogData = issue;
+    var data = {
+      title: issue.title,
+      budget: issue.budget,
+      color: issue.color,
+      username: this.UserName,
+      expense: issue.expense,
+      month: issue.month
+    }
+
+    this.http.post('http://localhost:3000/budget/add', data)
+      .subscribe((res: any) => {
+        console.log("result:" + res);
+      }, error => {
+        console.log(error);
+      });
+  }
+
+  updateIssue(issue: Issue): void {
+    this.dialogData = issue;
+    var data = {
+      id: issue.id,
+      title: issue.title,
+      budget: issue.budget,
+      color: issue.color,
+      username: this.UserName,
+      expense: issue.expense,
+      month: issue.month
+    }
+    console.log(issue);
+
+    this.http.post('http://localhost:3000/budget/update', data)
+      .subscribe((res: any) => {
+        console.log("result:" + res);
+      }, error => {
+        console.log(error);
+      });
+  }
+
+  deleteIssue(id): void {
+    console.log(id);
+    this.http.post('http://localhost:3000/budget/delete', { id })
+      .subscribe((res: any) => {
+        console.log("result:" + res);
+      }, error => {
+        console.log(error);
+      });
+  }
 }
+
+
+
+/* REAL LIFE CRUD Methods I've used in my projects. ToasterService uses Material Toasts for displaying messages:
+    // ADD, POST METHOD
+    addItem(kanbanItem: KanbanItem): void {
+    this.httpClient.post(this.API_URL, kanbanItem).subscribe(data => {
+      this.dialogData = kanbanItem;
+      this.toasterService.showToaster('Successfully added', 3000);
+      },
+      (err: HttpErrorResponse) => {
+      this.toasterService.showToaster('Error occurred. Details: ' + err.name + ' ' + err.message, 8000);
+    });
+   }
+    // UPDATE, PUT METHOD
+     updateItem(kanbanItem: KanbanItem): void {
+    this.httpClient.put(this.API_URL + kanbanItem.id, kanbanItem).subscribe(data => {
+        this.dialogData = kanbanItem;
+        this.toasterService.showToaster('Successfully edited', 3000);
+      },
+      (err: HttpErrorResponse) => {
+        this.toasterService.showToaster('Error occurred. Details: ' + err.name + ' ' + err.message, 8000);
+      }
+    );
+  }
+  // DELETE METHOD
+  deleteItem(id: number): void {
+    this.httpClient.delete(this.API_URL + id).subscribe(data => {
+      console.log(data['']);
+        this.toasterService.showToaster('Successfully deleted', 3000);
+      },
+      (err: HttpErrorResponse) => {
+        this.toasterService.showToaster('Error occurred. Details: ' + err.name + ' ' + err.message, 8000);
+      }
+    );
+  }
+*/
+
