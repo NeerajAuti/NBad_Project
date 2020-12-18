@@ -15,7 +15,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SignupComponent } from './signup/signup.component';
-import { AuthGuard } from './auth.guard';
 import { DataService } from './data.service';
 import { AuthService } from './auth.service';
 import { NavbarService } from './navbar.service';
@@ -76,7 +75,6 @@ import { EditComponent } from './dialogs/edit/edit.component';
     DeleteComponent
   ],
   providers: [
-    AuthGuard,
     DataService,
     AuthService,
     NavbarService

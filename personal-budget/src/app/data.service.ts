@@ -53,7 +53,6 @@ export class DataService {
   public TableData = [];
   public UserName;
   dataChange: BehaviorSubject<Issue[]> = new BehaviorSubject<Issue[]>([]);
-  // Temporarily stores data from dialogs
   dialogData: any;
 
   constructor(private http: HttpClient, @Optional() private router?: Router) { }
@@ -104,14 +103,11 @@ export class DataService {
           this.Chartdata = [];
           this.TableData = res.Chart1Data;
           this.UserName = res.UserName;
-          // console.log(this.UserName);
           var allMonths = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"];
           res.Chart2Data.sort(function (a, b) {
             return allMonths.indexOf(a._id) - allMonths.indexOf(b._id);
           });
-          // console.log(res);
-
           if (this.dataSource.datasets[0].data.length == 0) {
             for (var i = 0; i < res.Chart2Data.length; i++) {
               this.dataSource.datasets[0].data[i] = res.Chart2Data[i].totalExpense;
@@ -121,8 +117,6 @@ export class DataService {
               this.dataSourceChart2.datasets[1].data[i] = res.Chart2Data[i].totalBudget;
               this.dataSourceChart2.labels[i] = res.Chart2Data[i]._id;
             }
-            // console.log(this.dataSourceChart2);
-
           }
           if (this.Chartdata.length == 0) {
             for (var i = 0; i < res.Chart1Data.length; i++) {
@@ -210,41 +204,3 @@ export class DataService {
       });
   }
 }
-
-
-
-/* REAL LIFE CRUD Methods I've used in my projects. ToasterService uses Material Toasts for displaying messages:
-    // ADD, POST METHOD
-    addItem(kanbanItem: KanbanItem): void {
-    this.httpClient.post(this.API_URL, kanbanItem).subscribe(data => {
-      this.dialogData = kanbanItem;
-      this.toasterService.showToaster('Successfully added', 3000);
-      },
-      (err: HttpErrorResponse) => {
-      this.toasterService.showToaster('Error occurred. Details: ' + err.name + ' ' + err.message, 8000);
-    });
-   }
-    // UPDATE, PUT METHOD
-     updateItem(kanbanItem: KanbanItem): void {
-    this.httpClient.put(this.API_URL + kanbanItem.id, kanbanItem).subscribe(data => {
-        this.dialogData = kanbanItem;
-        this.toasterService.showToaster('Successfully edited', 3000);
-      },
-      (err: HttpErrorResponse) => {
-        this.toasterService.showToaster('Error occurred. Details: ' + err.name + ' ' + err.message, 8000);
-      }
-    );
-  }
-  // DELETE METHOD
-  deleteItem(id: number): void {
-    this.httpClient.delete(this.API_URL + id).subscribe(data => {
-      console.log(data['']);
-        this.toasterService.showToaster('Successfully deleted', 3000);
-      },
-      (err: HttpErrorResponse) => {
-        this.toasterService.showToaster('Error occurred. Details: ' + err.name + ' ' + err.message, 8000);
-      }
-    );
-  }
-*/
-

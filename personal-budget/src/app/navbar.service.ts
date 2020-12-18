@@ -6,8 +6,8 @@ import { Subject } from 'rxjs';
 })
 export class NavbarService {
 
-  private links = new Array<{ text: string, path: string }>();
-  private isLoggedIn = new Subject<boolean>();
+  public links = new Array<{ text: string, path: string }>();
+  public isLoggedIn = new Subject<boolean>();
 
   constructor() {
     this.addItem({ text: 'Login', path: 'login' });
