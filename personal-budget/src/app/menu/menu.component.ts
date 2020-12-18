@@ -35,7 +35,7 @@ export class MenuComponent implements OnInit {
   logout() {
     this.navbarService.updateLoginStatus(false);
     localStorage.removeItem("JWT_access_token");
-    this.http.get('http://localhost:3000/api/logout')
+    this.http.get('http://134.122.122.180:3000/api/logout')
       .subscribe((res: any) => {
 
       });

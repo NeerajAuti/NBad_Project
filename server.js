@@ -11,7 +11,7 @@ let url = "mongodb+srv://Neeraj:P%40ssw0rd%40123%40@cluster0.jau2d.mongodb.net/t
 const app = express();
 const port = 3000;
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.setHeader("Access-Control-Allow-Origin", "http://134.122.122.180:3000");
     res.setHeader("Access-Control-Allow-Headers", "Content-type,Authorization");
     next();
   });

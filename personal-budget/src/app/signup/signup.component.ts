@@ -39,7 +39,7 @@ export class SignupComponent implements OnInit {
     }
 
     this.loading = true;
-    this.http.post('http://localhost:3000/api/signup', this.SignupForm.value)
+    this.http.post('http://134.122.122.180:3000/api/signup', this.SignupForm.value)
       .subscribe((res: any) => {
         console.log("result:" + res);
 

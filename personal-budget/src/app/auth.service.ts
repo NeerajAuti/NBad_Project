@@ -10,13 +10,13 @@ export class AuthService {
 
   constructor(public http: HttpClient, public navbarService: NavbarService, public router: Router) { }
   public isAuthenticated() {
-    this.http.post('http://localhost:3000/api/verify', { token: localStorage.getItem('JWT_access_token') }).subscribe((res: any) => {
+    this.http.post('http://134.122.122.180:3000/api/verify', { token: localStorage.getItem('JWT_access_token') }).subscribe((res: any) => {
       this.navbarService.updateLoginStatus(true);
       this.navbarService.updateNavAfterAuth();
     }, err => {
       // alert(err.error);
       localStorage.removeItem('JWT_access_token');
-      this.http.get('http://localhost:3000/api/logout')
+      this.http.get('http://134.122.122.180:3000/api/logout')
         .subscribe((res: any) => {
           this.router.navigate(['']);
         });

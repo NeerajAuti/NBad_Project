@@ -59,7 +59,7 @@ export class DataService {
 
   public GetBudgetData() {
     return new Promise((resolve, reject) => {
-      this.http.get('http://localhost:3000/budget')
+      this.http.get('http://134.122.122.180:3000/budget')
         .subscribe((res: any) => {
           this.dataSource = {
             datasets: [
@@ -146,7 +146,7 @@ export class DataService {
 
   /** CRUD METHODS */
   getAllIssues(): void {
-    this.http.get<Issue[]>("http://localhost:3000/budget").subscribe(data => {
+    this.http.get<Issue[]>("http://134.122.122.180:3000/budget").subscribe(data => {
       this.dataChange.next(data);
     },
       (error: HttpErrorResponse) => {
@@ -165,7 +165,7 @@ export class DataService {
       month: issue.month
     }
 
-    this.http.post('http://localhost:3000/budget/add', data)
+    this.http.post('http://134.122.122.180:3000/budget/add', data)
       .subscribe((res: any) => {
         console.log("result:" + res);
       }, error => {
@@ -186,7 +186,7 @@ export class DataService {
     }
     console.log(issue);
 
-    this.http.post('http://localhost:3000/budget/update', data)
+    this.http.post('http://134.122.122.180:3000/budget/update', data)
       .subscribe((res: any) => {
         console.log("result:" + res);
       }, error => {
@@ -196,7 +196,7 @@ export class DataService {
 
   deleteIssue(id): void {
     console.log(id);
-    this.http.post('http://localhost:3000/budget/delete', { id })
+    this.http.post('http://134.122.122.180:3000/budget/delete', { id })
       .subscribe((res: any) => {
         console.log("result:" + res);
       }, error => {

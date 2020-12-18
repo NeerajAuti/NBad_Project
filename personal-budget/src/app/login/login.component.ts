@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
   public submit() {
-    this.http.post('http://localhost:3000/api/login', { username: this.username, password: this.password })
+    this.http.post('http://134.122.122.180:3000/api/login', { username: this.username, password: this.password })
       .subscribe((res: any) => {
         console.log(res.status);
         localStorage.setItem('JWT_access_token', res.token);
